@@ -1,4 +1,4 @@
-# Wi-Fi Signal Tracker
+# Wi-Fi Signal Tracker <img src="https://github.com/kartik2112/WifiSignalTracker/blob/master/app/src/main/res/mipmap-xxxhdpi/launcher_ic.png?raw=true" width="40"/>
 
 This android based application performs the following functions
 * Record Wi-Fi RSSI values for a period of 1 minute
