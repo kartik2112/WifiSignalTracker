@@ -7,11 +7,30 @@
     tools:context="com.sk.wifisignaltracker.MainActivity">
 
     <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/countDownTxt"
+        android:text="Counts remaining:"
+        android:textSize="10sp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_below="@id/countDownTxt"
+        android:text="0"
+        android:textSize="15sp"
+        android:id="@+id/countDownValTxt"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
         android:id="@+id/sSText"
+        android:layout_below="@id/countDownValTxt"
+        android:layout_marginTop="50dp"
         android:layout_width="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textSize="20dp"
-        android:layout_centerVertical="true"
+        android:textSize="20sp"
         android:layout_height="wrap_content"
         android:text="Signal Strength"/>
     <TextView
@@ -19,20 +38,32 @@
         android:layout_below="@id/sSText"
         android:layout_centerHorizontal="true"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="30dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/displayButton"
-        android:layout_below="@id/sigStrength"
-        android:text="Show recorded values"
-        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <Button
         android:id="@+id/refreshButton"
-        android:layout_below="@id/displayButton"
+        android:layout_below="@id/sigStrength"
+        android:layout_margin="7dp"
         android:text="Record Values"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/displayButton"
+        android:layout_margin="7dp"
+        android:layout_below="@id/refreshButton"
+        android:text="Show recorded values"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/displayButtonChart"
+        android:layout_margin="7dp"
+        android:layout_below="@id/displayButton"
+        android:text="Show recorded values on Chart"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

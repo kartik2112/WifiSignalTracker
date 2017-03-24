@@ -14,10 +14,11 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.concurrent.RunnableFuture;
 
 public class MainActivity extends AppCompatActivity implements Runnable{
-    TextView sStrength;
-    Button display,refresh;
+    TextView sStrength, countDownValText;
+    Button display, refresh, displayChart;
     Thread thread;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +31,9 @@ public class MainActivity extends AppCompatActivity implements Runnable{
          */
         sStrength=(TextView)findViewById(R.id.sigStrength);
         display=(Button)findViewById(R.id.displayButton);
+        displayChart = (Button) findViewById(R.id.displayButtonChart);
         refresh=(Button)findViewById(R.id.refreshButton);
+        countDownValText = (TextView) findViewById(R.id.countDownValTxt);
 
 
         /**
@@ -51,8 +54,22 @@ public class MainActivity extends AppCompatActivity implements Runnable{
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                refresh.setEnabled(false);
+                display.setEnabled(false);
+                displayChart.setEnabled(false);
+
+                countDownValText.setText("120");
+
                 thread=new Thread(MainActivity.this);
                 thread.start();
+            }
+        });
+
+        displayChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), ChartDisplay.class);
+                startActivity(i);
             }
         });
     }
@@ -74,8 +91,14 @@ public class MainActivity extends AppCompatActivity implements Runnable{
          * E.g. INSERT, UPDATE, DELETE, CREATE TABLE
          */
         sqlDB.execSQL("CREATE TABLE IF NOT EXISTS RSSIValRecorder(EventNo int AUTO_INCREMENT,SubEventNo int AUTO_INCREMENT,DateTimeOfRecord varchar(30),rssiVal int)");
-        for(int i=0;i<20;i++){
+
+        /**
+         * Since 120 values are recorded each time the table is cleaned so that it doesn't contain huge list of values
+         */
+        sqlDB.execSQL("DELETE FROM RSSIValRecorder");  //Surprisingly this is correct syntax for DELETE queries in SQLite
+        for (int i = 1; i <= 120; i++) {  //This will make the thread run for 1 minute
             try{
+                final int tempI = i;
                 Thread.sleep(500); //Make this thread asleep for 500 ms
 
                 /**
@@ -87,6 +110,9 @@ public class MainActivity extends AppCompatActivity implements Runnable{
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        countDownValText.setText(120 - tempI + "");
+
+
                         SQLiteDatabase sqlDB=openOrCreateDatabase("db123#4",MODE_PRIVATE,null);
 
 
@@ -113,6 +139,14 @@ public class MainActivity extends AppCompatActivity implements Runnable{
             }
         }
 
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                refresh.setEnabled(true);
+                display.setEnabled(true);
+                displayChart.setEnabled(true);
+            }
+        });
 
     }
 }

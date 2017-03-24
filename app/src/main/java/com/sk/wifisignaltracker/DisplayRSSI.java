@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Vector;
 
 public class DisplayRSSI extends AppCompatActivity {
     ListView listView;
@@ -31,23 +32,22 @@ public class DisplayRSSI extends AppCompatActivity {
         /**
          * This part is used to query the database i.e. for retrieving data from tables
          */
-        Cursor findTimes=sqlDB.rawQuery("SELECT * FROM RSSIValRecorder",null);
+        Cursor findTimes = sqlDB.rawQuery("SELECT * FROM RSSIValRecorder ORDER BY DateTimeOfRecord DESC", null);
 
 
         Log.d("ABCABC","AIUIGYU");
         Log.d("ABCABC",findTimes.getCount()+" , "+findTimes.getColumnIndex("rssiVal"));
 
-        String arr[]=new String[findTimes.getCount()];
+        //String arr[]=new String[findTimes.getCount()];
+        Vector<String> arr = new Vector<String>();
         int tempI=0;
         Log.d("ABCABC",findTimes.getCount()+" , "+findTimes.getColumnIndex("rssiVal"));
         try{
             if(findTimes!=null){
                 if(findTimes.moveToFirst()){
                     do{
-                        if(!findTimes.isNull(findTimes.getInt( findTimes.getColumnIndex("rssiVal")))){
-                            arr[tempI]=findTimes.getInt( findTimes.getColumnIndex("rssiVal"))+"";
-                        }
-
+                        arr.add(findTimes.getInt(findTimes.getColumnIndex("rssiVal")) + " dBm");
+                        //Log.d("ABCABC",findTimes.getInt( findTimes.getColumnIndex("rssiVal"))+"");
                     }while (findTimes.moveToNext());
                 }
             }
@@ -60,9 +60,12 @@ public class DisplayRSSI extends AppCompatActivity {
             sqlDB.close();
         }
 
-        Log.d("ABCABC",arr.length+"");
+        Log.d("ABCABC", arr.size() + "");
 
-        ArrayAdapter arrayAdapter=new ArrayAdapter(getApplicationContext(),android.R.layout.simple_list_item_1,arr);
+        /**
+         * Reference: https://github.com/codepath/android_guides/wiki/Using-an-ArrayAdapter-with-ListView
+         */
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arr);
         listView.setAdapter(arrayAdapter);
     }
 }
