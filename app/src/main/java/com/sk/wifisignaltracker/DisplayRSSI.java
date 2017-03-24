@@ -20,10 +20,23 @@ public class DisplayRSSI extends AppCompatActivity {
 
         listView=(ListView)findViewById(R.id.listVw);
 
+
+        /**
+         * This statement will create a database with this name in case this is the first time else it will open it
+         * MODE_PRIVATE is used so that the database created by this application cannot be used by any other application
+         * null is used for CursorFactory which according to documentation will hold the query output
+         */
         SQLiteDatabase sqlDB=openOrCreateDatabase("db123#4",MODE_PRIVATE,null);
+
+        /**
+         * This part is used to query the database i.e. for retrieving data from tables
+         */
         Cursor findTimes=sqlDB.rawQuery("SELECT * FROM RSSIValRecorder",null);
+
+
         Log.d("ABCABC","AIUIGYU");
         Log.d("ABCABC",findTimes.getCount()+" , "+findTimes.getColumnIndex("rssiVal"));
+
         String arr[]=new String[findTimes.getCount()];
         int tempI=0;
         Log.d("ABCABC",findTimes.getCount()+" , "+findTimes.getColumnIndex("rssiVal"));
@@ -31,8 +44,7 @@ public class DisplayRSSI extends AppCompatActivity {
             if(findTimes!=null){
                 if(findTimes.moveToFirst()){
                     do{
-                        if(!findTimes.isNull(findTimes.getInt( findTimes.getColumnIndex("rssiVal")
-                        ))){
+                        if(!findTimes.isNull(findTimes.getInt( findTimes.getColumnIndex("rssiVal")))){
                             arr[tempI]=findTimes.getInt( findTimes.getColumnIndex("rssiVal"))+"";
                         }
 
@@ -47,6 +59,8 @@ public class DisplayRSSI extends AppCompatActivity {
             findTimes.close();
             sqlDB.close();
         }
+
+        Log.d("ABCABC",arr.length+"");
 
         ArrayAdapter arrayAdapter=new ArrayAdapter(getApplicationContext(),android.R.layout.simple_list_item_1,arr);
         listView.setAdapter(arrayAdapter);
