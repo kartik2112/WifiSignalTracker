@@ -46,7 +46,7 @@ public class DisplayRSSI extends AppCompatActivity {
             if(findTimes!=null){
                 if(findTimes.moveToFirst()){
                     do{
-                        arr.add(findTimes.getInt(findTimes.getColumnIndex("rssiVal")) + " dBm");
+                        arr.add(findTimes.getString(findTimes.getColumnIndex("DateTimeOfRecord"))+" -> "+findTimes.getInt(findTimes.getColumnIndex("rssiVal")) + " dBm");
                         //Log.d("ABCABC",findTimes.getInt( findTimes.getColumnIndex("rssiVal"))+"");
                     }while (findTimes.moveToNext());
                 }
